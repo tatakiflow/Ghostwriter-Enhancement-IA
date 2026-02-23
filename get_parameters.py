@@ -1,0 +1,59 @@
+import requests
+import os
+from dotenv import load_dotenv
+
+def get_params_from_ghostwritter():
+
+  #Per silenciar el certificate requirement
+  import urllib3
+  urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+  load_dotenv()
+
+  url = "https://127.0.0.1/v1/graphql"
+  auth_token = os.getenv("GHOSTWRITTER_API_TOKEN")
+
+  #Verficació per verue si hi ha un auth code.
+
+  if auth_token is None:
+      exit("Error un finding a variable")
+
+  #Es defineix la query
+
+  body = """ query MyQuery {
+    finding(distinct_on: title) {
+      id
+      title
+      description
+    }
+  } """
+
+  #Request
+  response = requests.post(url=url, 
+                          json={"query": body},
+                          headers={"content-type":"application/json", 
+                                    "Authorization":f"Bearer {auth_token}"},                         
+                          verify=False)
+
+  response_data = response.json()
+
+  #Llista buida a omplenar amb el titol de les vulns sense descripció
+  vulns_to_enchance = []
+  if "errors" in response_data:
+      data_errors = response_data["errors"]
+      print(data_errors)
+      exit(1)
+  elif "data" in response_data:
+      vuln_titles = response_data["data"]["finding"]
+      for desc in vuln_titles:
+          description = desc["description"]
+          if description == "<p xmlns=\"http://www.w3.org/1999/xhtml\"></p>" or description == "":
+              vulns_to_enchance.append(desc["title"])
+  
+  return vulns_to_enchance          
+
+    
+        
+
+
+
+
