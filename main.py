@@ -3,9 +3,13 @@
 
 from get_parameters import get_params_from_ghostwritter
 from data_enhancement import data_enhancement
+from return_data import mutate_parameters
 
 title_list_for_ia = get_params_from_ghostwritter()
 print(title_list_for_ia)
 
 titles_enhanced = data_enhancement(title_list_for_ia)
 print(titles_enhanced)
+
+everything_ok = mutate_parameters(titles_enhanced)
+print(everything_ok)
