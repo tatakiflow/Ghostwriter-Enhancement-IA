@@ -1,6 +1,6 @@
 # Ghostwriter Enhancement IA
 
-Automatiza la mejora de *findings* en Ghostwriter usando un modelo local de IA (Ollama), rellenando `description` y `mitigation` cuando están vacíos.
+Automatiza la mejora de *findings* en Ghostwriter usando un modelo local de IA (Ollama), rellenando `description`, `impact` y `mitigation` cuando están vacíos.
 
 ## ¿Qué hace este proyecto?
 
@@ -8,15 +8,16 @@ El flujo principal es:
 
 1. Consulta Ghostwriter (GraphQL) y obtiene findings.
 2. Filtra findings sin descripción útil.
-3. Genera contenido técnico con IA (`description` y `mitigation`).
-4. Actualiza cada finding en Ghostwriter mediante mutación GraphQL.
-5. El proceso se ejecuta automáticamente cada hora mediante un *scheduler*.
+3. Detecta el idioma del título de la vulnerabilidad (español, inglés o catalán).
+4. Genera contenido técnico con IA (`description`, `impact` y `mitigation`) en el idioma detectado.
+5. Actualiza cada finding en Ghostwriter mediante mutación GraphQL.
+6. El proceso se ejecuta automáticamente cada hora mediante un *scheduler*.
 
 ## Estructura
 
 - `main.py`: orquesta el proceso completo y ejecuta el *scheduler*.
 - `get_parameters.py`: obtiene y filtra findings desde Ghostwriter.
-- `data_enhancement.py`: genera descripción y mitigación con Ollama.
+- `data_enhancement.py`: detecta el idioma y genera descripción, impacto y mitigación con Ollama.
 - `return_data.py`: envía la mutación para actualizar findings.
 - `docker-compose.yml` y `Dockerfile`: permiten desplegar el proyecto en un contenedor Docker.
 
@@ -72,8 +73,9 @@ El flujo principal es:
 
 - El proyecto usa `verify=False` en las peticiones HTTPS para entorno local/lab.
 - Si Hasura responde con errores, se muestran por consola por ID de finding.
-- La mutación actualiza los campos `description` y `mitigation`.
+- La mutación actualiza los campos `description`, `impact` y `mitigation`.
 - El script principal (`main.py`) se queda corriendo en bucle y ejecuta la tarea cada hora.
+- La detección de idioma soporta español, inglés y catalán (por defecto usa español si no logra detectarlo).
 
 ## Troubleshooting rápido
 
