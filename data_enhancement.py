@@ -1,6 +1,5 @@
-from ollama import chat
-from ollama import ChatResponse
 from ollama import Client
+from langdetect import detect
 import os
 import json
 
@@ -16,7 +15,11 @@ def data_enhancement(title_list_for_ia):
 
         id_original = vuln["id"] 
         title_original = vuln["title"]
-        
+
+        # Mapeo de idiomas con la libreria langdetect
+        idiomas_map = {"es": "español", "en": "inglés", "ca": "catalán"}
+        idioma = idiomas_map.get(detect(title_original), "español")
+
         prompt = f"""Actúa como un analista de ciberseguridad nivel senior. Tu única tarea es extraer la información técnica de la vulnerabilidad indicada y estructurarla en un objeto JSON.
                 Restricciones absolutas:
                 1. Tu respuesta debe ser ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido con exactamente tres claves en minúsculas: "description", "impact" y "mitigation".
@@ -25,8 +28,9 @@ def data_enhancement(title_list_for_ia):
                 4. El contenido de los valores debe mantener un rigor técnico absoluto, integrando tácticas, técnicas y mitigaciones de MITRE ATT&CK, clasificaciones CWE y lineamientos OWASP u OSSTMM aplicables.
                 5. La longitud del texto para cada clave debe oscilar estrictamente entre 5 y 10 oraciones.
                 6. En el campo "mitigation", omite controles genéricos. Define la solución a nivel de arquitectura, segmentación, controles compensatorios o configuraciones precisas en los sistemas afectados.
+                7. El idioma de la respuesta debe de ser el {idioma}
                 
-                Vulnerabilidad objetivo: {vuln}"""
+                Vulnerabilidad objetivo: {title_original}"""
         
         try:
             response = client.chat(
