@@ -1,11 +1,17 @@
 from ollama import chat
 from ollama import ChatResponse
+from ollama import Client
+import os
 import json
 
 def data_enhancement(title_list_for_ia):
 
     vulns_enhanced_ia = [] 
 
+    client = Client(
+    host= os.getenv("OLLAMA_HOST", "http://localhost:11434")
+    )
+    
     for vuln in title_list_for_ia:
 
         id_original = vuln["id"] 
@@ -23,7 +29,7 @@ def data_enhancement(title_list_for_ia):
                 Vulnerabilidad objetivo: {vuln}"""
         
         try:
-            response:ChatResponse = chat(
+            response = client.chat(
                 model='llama3.1',
                 messages=[{'role':'user','content': prompt}],
                 format='json'

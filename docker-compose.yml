@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ghostwriter_ia_enhancer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    container_name: ghostwriter_ia_enhancer
+    restart: unless-stopped
+
+    env_file: .env
+    
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

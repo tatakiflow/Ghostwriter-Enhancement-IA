@@ -9,7 +9,7 @@ def get_params_from_ghostwritter():
   urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
   load_dotenv()
 
-  url = "https://127.0.0.1/v1/graphql"
+  url = os.getenv("GHOSTWRITER_UR")
   auth_token = os.getenv("GHOSTWRITER_API_TOKEN")
 
   #Verficació per verue si hi ha un auth code.
@@ -19,13 +19,14 @@ def get_params_from_ghostwritter():
 
   #Es defineix la query
 
-  body = """ query MyQuery {
-    finding(distinct_on: title) {
-      id
-      title
-      description
+  body = """query MyQuery {
+  finding(where: {title: {_nlike: "%[ERROR IA]"}) {
+    title
+    id
+    description
+     }
     }
-  } """
+    """
 
   #Request
   response = requests.post(url=url, 
