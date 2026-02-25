@@ -9,7 +9,7 @@ def get_params_from_ghostwritter():
   urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
   load_dotenv()
 
-  url = os.getenv("GHOSTWRITER_UR")
+  url = os.getenv("GHOSTWRITER_URL")
   auth_token = os.getenv("GHOSTWRITER_API_TOKEN")
 
   #Verficació per verue si hi ha un auth code.

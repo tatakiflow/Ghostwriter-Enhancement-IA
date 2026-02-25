@@ -10,7 +10,7 @@ def mutate_parameters(titles_enhanced):
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
 
-    url = os.getenv("GHOSTWRITER_UR")
+    url = os.getenv("GHOSTWRITER_URL")
     auth_token = os.getenv("GHOSTWRITER_API_TOKEN")
 
     for vuln in titles_enhanced:
