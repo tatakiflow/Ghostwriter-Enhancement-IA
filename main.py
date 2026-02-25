@@ -9,8 +9,6 @@ from data_enhancement import data_enhancement
 from return_data import mutate_parameters
 
 def job():
-     
-    print("Scheduler stopped by user.")
 
     title_list_for_ia = get_params_from_ghostwritter()
     print(title_list_for_ia)
@@ -21,6 +19,7 @@ def job():
     everything_ok = mutate_parameters(titles_enhanced)
     print(everything_ok)
 
+job()
 schedule.every(1).hours.do(job)
 
 while True:

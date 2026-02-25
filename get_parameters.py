@@ -20,11 +20,11 @@ def get_params_from_ghostwritter():
   #Es defineix la query
 
   body = """query MyQuery {
-  finding(where: {title: {_nlike: "%[ERROR IA]"}) {
+  finding(where: {title: {_nlike: "%[ERROR IA]"}}) {
     title
     id
     description
-     }
+        }
     }
     """
 

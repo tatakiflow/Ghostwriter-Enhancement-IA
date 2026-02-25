@@ -19,11 +19,12 @@ def mutate_parameters(titles_enhanced):
         title = vuln["title"]
         title_error = title + "[ERROR IA]"
         description = vuln["description"]
+        impact = vuln["impact"]
         mitigation = vuln["mitigation"]
 
         mutation_graphql = """
-        mutation MyMutation($id: bigint!, $description: String!, $mitigation: String!) {
-            update_finding(where: {id: {_eq: $id}}, _set: {description: $description, mitigation: $mitigation}) {
+        mutation MyMutation($id: bigint!, $description: String!, $impact: String!, $mitigation: String!) {
+            update_finding(where: {id: {_eq: $id}}, _set: {description: $description, impact: $impact, mitigation: $mitigation}) {
                 affected_rows
             }
         }
@@ -33,6 +34,7 @@ def mutate_parameters(titles_enhanced):
         variables_graphql = {
             "id": int(finding_id),
             "description": description,
+            "impact": impact,
             "mitigation": mitigation
         }
 
