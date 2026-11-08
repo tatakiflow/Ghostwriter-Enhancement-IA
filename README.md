@@ -1,6 +1,8 @@
 # Ghostwriter Enhancement IA
 
-Automatiza la mejora de *findings* en Ghostwriter usando un modelo local de IA (Ollama), rellenando `description`, `impact` y `mitigation` cuando están vacíos.
+Automatiza la mejora de *findings* en Ghostwriter usando un modelo local de IA (Ollama), rellenando `description`, `impact` y `mitigation` cuando están vacíos. 
+
+Nota: El código de este proyecto ha sido escrito de forma 100% manual, sin el uso de asistentes de programación por IA. Más allá de su funcionalidad principal, el propósito de este desarrollo ha sido consolidar mis conocimientos en Python y adquirir experiencia práctica en la integración de APIs y servicios de Inteligencia Artificial.
 
 ## ¿Qué hace este proyecto?
 
